@@ -18,10 +18,6 @@ public:
                 res[i][colBegin]=cnt++;
             colBegin++;
         }
-        vector<vector<int>> ans;
-        for(auto it: res){
-            ans.push_back(it);
-        }
-        return ans;
+        return res;
     }
 };

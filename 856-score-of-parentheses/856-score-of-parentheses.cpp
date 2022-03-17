@@ -9,7 +9,7 @@ public:
             }
             else{
                 depth--;
-                if(prev=='(') ans+=pow(2, depth);
+                if(prev=='(') ans+=1<<depth;
             }
             prev=ch;
         }

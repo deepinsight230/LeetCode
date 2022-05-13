@@ -14,6 +14,7 @@ public:
     void helper(TreeNode *root, vector<int> &ans, int level){
         if(root==NULL) return;
         if(ans.size()==level) ans.push_back(root->val);
+        // if(root->left==NULL&&root->right==NULL) return;
         helper(root->right, ans, level+1);
         helper(root->left, ans, level+1);
     }

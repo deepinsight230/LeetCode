@@ -1,13 +1,22 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int bsp=-prices[0], ssp=0, csp=0;
-        for(int i=1;i<prices.size();i++){
-            int nbsp=max(bsp, csp-prices[i]);
-            int nssp=max(ssp, bsp+prices[i]);
-            int ncsp=max(csp, ssp);
-            bsp=nbsp, ssp=nssp, csp=ncsp;
+    int helper(int day, bool bought, vector<int> &prices, vector<vector<int>> &dp){
+        if(day>=prices.size()) return 0;
+        if(dp[day][bought]!=-1) return dp[day][bought];
+        if(bought==false){
+            int buy=-prices[day]+helper(day+1, true, prices, dp);
+            int notbuy=helper(day+1, false, prices, dp);
+            return dp[day][bought]=max(buy, notbuy);
         }
-        return ssp;
+        else{
+            int sell=prices[day]+helper(day+2, false, prices, dp);
+            int notsell=helper(day+1, true, prices, dp);
+            return dp[day][bought]=max(sell, notsell);
+        }
+    }
+    int maxProfit(vector<int>& prices) {
+        int n=prices.size();
+        vector<vector<int>> dp(n, vector<int> (2, -1));
+        return helper(0, false, prices, dp);
     }
 };

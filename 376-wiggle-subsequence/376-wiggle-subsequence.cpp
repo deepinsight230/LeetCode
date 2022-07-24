@@ -5,11 +5,17 @@ public:
         if(dp[i][pos]!=-1) return dp[i][pos];
         int take=0, nottake=0;
         if(pos){
-            if(nums[i+1]>nums[i]) take=1+helper(i+1, false, nums, n, dp);
+            if(nums[i+1]>nums[i]){
+                take=1+helper(i+1, false, nums, n, dp);
+                nottake=helper(i+1, true, nums, n, dp);
+            }
             else nottake=helper(i+1, true, nums, n, dp);
         }
         else{
-            if(nums[i+1]<nums[i]) take=1+helper(i+1, true, nums, n, dp);
+            if(nums[i+1]<nums[i]){
+                take=1+helper(i+1, true, nums, n, dp);
+                nottake=helper(i+1, false, nums, n, dp);
+            }
             else nottake=helper(i+1, false, nums, n, dp);
         }
         return dp[i][pos]=max(take, nottake);

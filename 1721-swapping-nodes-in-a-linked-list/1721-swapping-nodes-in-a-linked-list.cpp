@@ -10,22 +10,26 @@
  */
 class Solution {
 public:
+    ListNode *ahead(ListNode *head, int k){
+        ListNode *fast=head;
+        for(int i=0;i<k;i++) fast=fast->next;
+        ListNode *dummy=new ListNode(0, head);
+        ListNode *slow=head;
+        while(fast){
+            fast=fast->next;
+            slow=slow->next;
+        }
+        return slow;
+    }
+    ListNode *prev(ListNode *head, int k){
+        ListNode *curr=head;
+        for(int i=1;i<k;i++) curr=curr->next;
+        return curr;
+    }
     ListNode* swapNodes(ListNode* head, int k) {
-        ListNode *slow=head, *fast=head, *curr=head;
-        int i=1;
-        while(i<=k){
-            curr=curr->next;
-            i++;
-        }
-        i=1;
-        while(curr||i<k){
-            if(curr){
-                fast=fast->next;  
-                curr=curr->next;
-            }
-            if(i<k) slow=slow->next, i++;
-        }
-        swap(slow->val, fast->val);
+        ListNode *second=ahead(head, k);
+        ListNode *first=prev(head, k);
+        swap(first->val, second->val);
         return head;
     }
 };

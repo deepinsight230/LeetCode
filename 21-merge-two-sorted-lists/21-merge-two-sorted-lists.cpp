@@ -25,16 +25,9 @@ public:
             }
             dhead=dhead->next;
         }
-        while(curr1){
-            dhead->next=curr1;
-            curr1=curr1->next;
-            dhead=dhead->next;
-        }
-        while(curr2){
-            dhead->next=curr2;
-            curr2=curr2->next;
-            dhead=dhead->next;
-        }
+        if(curr1) dhead->next=curr1;
+        if(curr2) dhead->next=curr2;
+        
         ListNode *dnext=dummy->next;
         delete dummy;
         return dnext;

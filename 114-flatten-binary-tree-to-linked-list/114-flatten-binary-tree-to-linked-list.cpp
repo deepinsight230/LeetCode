@@ -11,13 +11,22 @@
  */
 class Solution {
 public:
-    TreeNode *prev=NULL;
+    TreeNode *leftMOST(TreeNode *root){
+        if(root->right==NULL) return root;
+        return leftMOST(root->right);
+    }
     void flatten(TreeNode* root) {
-        if(root==NULL) return;
-        flatten(root->right);
-        flatten(root->left);
-        root->right=prev;
-        root->left=NULL;
-        prev=root;
+        TreeNode *nextRight;
+        TreeNode *leftMost;
+        while(root){
+            if(root->left){
+                nextRight=root->right;
+                leftMost=leftMOST(root->left);
+                root->right=root->left;
+                leftMost->right=nextRight;
+                root->left=NULL;
+            }
+            root=root->right;
+        }
     }
 };

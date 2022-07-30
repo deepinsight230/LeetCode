@@ -1,38 +1,39 @@
 class Solution {
 public:
-    void kahn(queue<int> &q, vector<int> adj[], vector<int> &indeg, vector<int> &ans){
+    void builder(vector<int> adj[], vector<int> &indeg, int n, vector<vector<int>>& pre){
+        for(int i=0;i<pre.size();i++){
+            indeg[pre[i][0]]++;
+            adj[pre[i][1]].push_back(pre[i][0]);
+        }
+    }
+    void bfs(vector<int> &indeg, int n, vector<int> adj[], vector<int> &ans){
+        queue<int> q;
+        for(int i=0;i<n;i++){
+            if(indeg[i]==0){
+                q.push(i);
+            }
+        }
         while(!q.empty()){
             int n=q.size();
             for(int i=0;i<n;i++){
                 int node=q.front();
-                q.pop();
                 ans.push_back(node);
+                q.pop();
                 for(auto child: adj[node]){
                     indeg[child]--;
-                    if(indeg[child]==0) q.push(child);
+                    if(indeg[child]==0){
+                        q.push(child);
+                    }
                 }
             }
         }
     }
-    vector<int> findOrder(int n, vector<vector<int>>& arr) {
-        vector<int> adj[n], ans, indeg(n, 0);
-        for(int i=0;i<arr.size();i++){
-            int u=arr[i][0], v=arr[i][1];
-            adj[v].push_back(u);
-        }
-        for(int i=0;i<n;i++){
-            for(auto child: adj[i]){
-                indeg[child]++;
-            }
-        }
-        queue<int> q;
-        for(int i=0;i<n;i++){
-            if(indeg[i]==0) q.push(i);
-        }
-        kahn(q, adj, indeg, ans);
-        if(ans.size()==n){
-            return ans;
-        }
-        return {};
+    vector<int> findOrder(int n, vector<vector<int>>& pre) {
+        vector<int> indeg(n, 0), adj[n];
+        vector<int> ans;
+        builder(adj, indeg, n, pre);
+        bfs(indeg, n, adj, ans);
+        if(ans.size()==n) return ans;
+        else return {};
     }
 };

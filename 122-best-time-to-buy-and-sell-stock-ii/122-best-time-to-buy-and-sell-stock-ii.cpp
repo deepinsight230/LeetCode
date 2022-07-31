@@ -1,22 +1,18 @@
 class Solution {
 public:
-    int helper(int day, bool bought, vector<int> &prices, vector<vector<int>> &dp){
-        if(day==prices.size()) return 0;
-        if(dp[day][bought]!=-1) return dp[day][bought];
-        if(bought==false){
-            int buy=-prices[day]+helper(day+1, true, prices, dp);
-            int notbuy=helper(day+1, false, prices, dp);
-            return dp[day][bought]=max(buy, notbuy);
+    int helper(int i, bool bought, vector<int> &prices, int n, vector<vector<int>> &dp){
+        if(i>=n) return 0;
+        if(dp[i][bought]!=-1) return dp[i][bought];
+        if(bought){
+            return dp[i][bought]=max(helper(i+1, true, prices, n, dp), prices[i]+helper(i+1, false, prices, n, dp));
         }
         else{
-            int sell=prices[day]+helper(day+1, false, prices, dp);
-            int notsell=helper(day+1, true, prices, dp);
-            return dp[day][bought]=max(sell, notsell);
+            return dp[i][bought]=max(helper(i+1, false, prices, n, dp), -prices[i]+helper(i+1, true, prices, n, dp));
         }
     }
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
         vector<vector<int>> dp(n, vector<int> (2, -1));
-        return helper(0, false, prices, dp);
+        return helper(0, false, prices, n, dp);
     }
 };

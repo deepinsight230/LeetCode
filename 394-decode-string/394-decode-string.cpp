@@ -1,34 +1,26 @@
 class Solution {
 public:
-    string decodeString(string s) {
-        stack<char> st;
+    string helper(int &i, string s){
+        int num=0;
         string ans="";
-        for(char ch: s){
-            if(ch!=']') st.push(ch);
+        for(;i<s.size();i++){
+            if(s[i]=='['){
+                string temp=helper(++i, s);
+                while(num--) ans+=temp;
+                num=0;
+            }
+            else if(isalpha(s[i])) ans+=s[i];
+            else if(isdigit(s[i])){
+                num=num*10 + s[i]-'0';
+            }
             else{
-                string temp="";
-                while(st.top()!='['){
-                    temp=st.top()+temp;
-                    st.pop();
-                }
-                st.pop();
-                string num="";
-                while(!st.empty() && st.top()<='9' && st.top()>='0'){
-                    num+=st.top();
-                    st.pop();
-                }
-                reverse(num.begin(), num.end());
-                int n=stoi(num);
-                while(n--){
-                    for(char ch: temp) st.push(ch);
-                }
+                return ans;
             }
         }
-        while(!st.empty()){
-            ans+=st.top();
-            st.pop();
-        }
-        reverse(ans.begin(), ans.end());
         return ans;
+    }
+    string decodeString(string s) {
+        int i=0;
+        return helper(i, s);
     }
 };

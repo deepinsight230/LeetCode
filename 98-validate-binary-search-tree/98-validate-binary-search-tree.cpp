@@ -11,19 +11,12 @@
  */
 class Solution {
 public:
-    bool isValidBST(TreeNode* root, long long llim=INT_MIN, long long rlim=INT_MAX) {
+    bool helper(TreeNode *root, long long minv, long long maxv){
         if(root==NULL) return true;
-        if(root->val<llim||root->val>rlim) return false;
-        bool left=true, right=true;
-        if(root->val==INT_MIN){
-            if(root->left) return false;
-        }
-        else left=isValidBST(root->left, llim, root->val-1);
-        if(left==false) return false;
-        if(root->val==INT_MAX){
-            if(root->right) return false;
-        }
-        else right=isValidBST(root->right, root->val+1, rlim);
-        return (left&&right);
+        if(!(root->val<maxv && root->val>minv)) return false;
+        return helper(root->left, minv, root->val)&&helper(root->right, root->val, maxv);
+    }
+    bool isValidBST(TreeNode* root) {
+        return helper(root, LLONG_MIN, LLONG_MAX);
     }
 };

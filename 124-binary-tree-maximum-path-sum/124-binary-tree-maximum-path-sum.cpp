@@ -11,17 +11,17 @@
  */
 class Solution {
 public:
-    int helper(TreeNode *root, int &ans){
+    int helper(TreeNode *root, int &maxSum){
         if(root==NULL) return 0;
-        int left=helper(root->left, ans);
-        int right=helper(root->right, ans);
-        ans=max(ans, (left+right+root->val));
-        int temp=root->val+max(left, right);
-        return ((temp>0)?temp:0);
+        int left=helper(root->left, maxSum);
+        int right=helper(root->right, maxSum);
+        maxSum=max(maxSum, left+right+root->val);
+        int temp=max(left, right)+root->val;
+        return (temp>0)?temp:0;
     }
     int maxPathSum(TreeNode* root) {
-        int ans=INT_MIN;
-        helper(root, ans);
-        return ans;
+        int maxSum=INT_MIN;
+        helper(root, maxSum);
+        return maxSum;
     }
 };

@@ -11,16 +11,15 @@
  */
 class Solution {
 public:
-    void helper(TreeNode *root, int &ans, int mx){
-        if(!root) return;
-        if(root->val >= mx) ans++;
-        mx=max(mx, root->val);
-        helper(root->left, ans, mx);
-        helper(root->right, ans, mx);
+    int helper(TreeNode *root, int mx){
+        if(root==NULL) return 0;
+        int left=helper(root->left, max(mx, root->val));
+        int right=helper(root->right, max(mx, root->val));
+        int ans=left+right;
+        if(root->val>=mx) return ans+1;
+        else return ans;
     }
     int goodNodes(TreeNode* root) {
-        int ans=0;
-        helper(root, ans, INT_MIN);
-        return ans;
+        return helper(root, INT_MIN);
     }
 };

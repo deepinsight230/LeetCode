@@ -19,8 +19,8 @@ public:
         root->left=left;
         root->right=right;
         if(root->val == 0 && !left && !right){
-            // TreeNode *temp=root;
-            // delete temp;
+            TreeNode *temp=root;
+            delete temp;
             return NULL;
         }
         

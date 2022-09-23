@@ -11,16 +11,23 @@
  */
 class Solution {
 public:
-    int height(TreeNode *root, int &ans){
+    int height(TreeNode *root){
         if(root == NULL) return 0;
-        int left=height(root->left, ans);
-        int right=height(root->right, ans);
-        ans=max(ans, left + right);
+        int left=height(root->left);
+        int right=height(root->right);
         return max(left, right)+1;
+    }
+    void helper(TreeNode *root, int &ans){
+        if(root == NULL) return;
+        int lefth=height(root->left);
+        int righth=height(root->right);
+        ans=max(ans, lefth+righth);
+        helper(root->left, ans);
+        helper(root->right, ans);
     }
     int diameterOfBinaryTree(TreeNode* root) {
         int ans=-1;
-        height(root, ans);
+        helper(root, ans);
         return ans;
     }
 };

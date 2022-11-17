@@ -6,10 +6,11 @@ public:
         if(i<0 || j<0 || i>=m || j>=n) return false;
         return true;
     }
-    void bfs(vector<vector<int>>& grid, int m, int n, int &cnt, vector<vector<int>> &vis){
+    int bfs(vector<vector<int>>& grid, int m, int n, vector<vector<int>> &vis){
         queue<pair<int, int>> q;
         q.push({0, 0});
         vis[0][0]=1;
+        int cnt=0;
         bool flag=false;
         while(!q.empty() && !flag){
             int sz=q.size();
@@ -17,7 +18,7 @@ public:
             for(int i=0;i<sz && !flag;i++){
                 int x=q.front().first;
                 int y=q.front().second;
-                if(x==m-1 && y==n-1) flag=true;
+                if(x==m-1 && y==n-1) return cnt;
                 q.pop();
                 int new_x, new_y;
                 for(int j=0;j<8;j++){
@@ -27,14 +28,15 @@ public:
                 }
             }
         }
-        if(!flag) cnt=-1;
+        if(!flag) return -1;
+        return cnt;
     }
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         int m=grid.size();
-        int n=grid[0].size(), ans=0;
+        int n=grid[0].size();
         if(grid[0][0] || grid[m-1][n-1]) return -1;
         vector<vector<int>> vis(m, vector<int> (n, 0));
-        bfs(grid, m, n, ans, vis);
+        int ans=bfs(grid, m, n, vis);
         return (ans==0)?-1:ans;
     }
 };

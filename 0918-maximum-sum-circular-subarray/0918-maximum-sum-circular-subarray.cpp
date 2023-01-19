@@ -23,6 +23,6 @@ public:
         int ans1=kadane(nums, n);
         int t_sum=accumulate(nums.begin(), nums.end(), 0);
         int ans2=kadane2(nums, n);
-        return (ans1<0)?ans1:max(ans1, (t_sum-ans2));
+        return ((t_sum-ans2) == 0)?ans1:max(ans1, (t_sum-ans2));
     }
 };
